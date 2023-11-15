@@ -1,17 +1,20 @@
-import { Controller, Get, Param, ParseFloatPipe, Query } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { LoanService } from './loan.service';
-import {
-  CalculateVehicleAprDto,
-  CalculateVehicleAprRequest,
-} from './dtos/calculate-vehicle-apr.dto';
+import { CalculateVehicleAprRequest } from './dtos/calculate-vehicle-apr.dto';
+import calculateVehicleAprRequestToDto from './converters/calculate-vehicle-apr.converter';
 
 @Controller('loan')
 export class LoanController {
   constructor(private readonly loanService: LoanService) {}
 
-  @Get('apr')
+  @Get('apr') //Realmente essa chamdaa é idempotente ou a tabela base de apr pode variar com o tempo?
   calculateAPR(@Query() request: CalculateVehicleAprRequest): string {
-    console.log(request);
-    return this.loanService.calculateApr();
+    //Colocar log aqui
+    console.log('Chegou aqui controller', request);
+    const vehicleApr = this.loanService.calculateVehicleApr(
+      calculateVehicleAprRequestToDto(request),
+    );
+
+    return `${vehicleApr}%`;
   }
 }
