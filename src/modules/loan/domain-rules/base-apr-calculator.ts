@@ -1,4 +1,5 @@
 import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
+import { LoanAssetTypeEnum } from '../enum/loan.enum';
 import {
   LoanAmmountExceedsYourLimit,
   LoanAmmountTooLow,
@@ -8,15 +9,20 @@ import {
 
 export default function calculateBaseApr(
   dto: CalculateBaseAprDto,
+  loanAssetType: LoanAssetTypeEnum,
 ): number | undefined {
-  const timeRange = validateBaseAprCalculation(dto);
+  const loanRules = maybeAfactory(loanAssetType);
+  const timeRange = validateBaseAprCalculation(loanRules, dto);
 
   return timeRange.baseValue;
 }
 
-function validateBaseAprCalculation(dto: CalculateBaseAprDto): TimeRange {
+function validateBaseAprCalculation(
+  loanRules: LoanRules,
+  dto: CalculateBaseAprDto,
+): TimeRange {
   //talvez colocar mais logs aqui
-  const personScoreRange = Table.find((x) => {
+  const personScoreRange = loanRules.find((x) => {
     const lowerLimit = x.personCreditScoreLowerLimit ?? Number.MIN_SAFE_INTEGER;
     const upperLimit = x.personCreditScoreUpperLimit ?? Number.MAX_SAFE_INTEGER;
     return (
@@ -94,21 +100,36 @@ class PersonScoreRange {
   }
 }
 
-const Table = [
-  // Olhar esses ranges para ver a questao do <= e >=
-  new PersonScoreRange(undefined, 600, 50000, [
-    new TimeRange(undefined, 37, 12.75, 5000), //Criar timeranges defautl para nao repetir os ranges e o minimum value
-    new TimeRange(36, 49, 13.25, 10000),
-    new TimeRange(48, 61, undefined, 15000),
-  ]),
-  new PersonScoreRange(599, 700, 75000, [
-    new TimeRange(undefined, 37, 5.75, 5000),
-    new TimeRange(36, 49, 6.0, 10000),
-    new TimeRange(48, 61, 6.65, 15000),
-  ]),
-  new PersonScoreRange(699, undefined, 100000, [
-    new TimeRange(undefined, 37, 4.75, 5000),
-    new TimeRange(36, 49, 5.0, 10000),
-    new TimeRange(48, 61, 5.5, 15000),
-  ]),
-];
+type LoanRules = PersonScoreRange[];
+
+function maybeAfactory(loanAssetType: LoanAssetTypeEnum): LoanRules {
+  //criar uma factory aqui ?
+  switch (loanAssetType) {
+    case LoanAssetTypeEnum.VEHICLE:
+      return getBaseLoanRules();
+    default:
+      return getBaseLoanRules();
+  }
+}
+
+function getBaseLoanRules() {
+  return [
+    // Olhar esses ranges para ver a questao do <= e >=
+
+    new PersonScoreRange(undefined, 600, 50000, [
+      new TimeRange(undefined, 37, 12.75, 5000), //Criar timeranges defautl para nao repetir os ranges e o minimum value
+      new TimeRange(36, 49, 13.25, 10000),
+      new TimeRange(48, 61, undefined, 15000),
+    ]),
+    new PersonScoreRange(599, 700, 75000, [
+      new TimeRange(undefined, 37, 5.75, 5000),
+      new TimeRange(36, 49, 6.0, 10000),
+      new TimeRange(48, 61, 6.65, 15000),
+    ]),
+    new PersonScoreRange(699, undefined, 100000, [
+      new TimeRange(undefined, 37, 4.75, 5000),
+      new TimeRange(36, 49, 5.0, 10000),
+      new TimeRange(48, 61, 5.5, 15000),
+    ]),
+  ];
+}

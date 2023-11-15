@@ -31,6 +31,6 @@ export class LoanService {
     dto: CalculateBaseAprDto,
     loanAssetType: LoanAssetTypeEnum,
   ): number | undefined {
-    return calculateBaseApr(dto);
+    return calculateBaseApr(dto, loanAssetType);
   }
 }
