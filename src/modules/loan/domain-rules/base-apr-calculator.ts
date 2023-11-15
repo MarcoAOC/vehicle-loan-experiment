@@ -1,5 +1,10 @@
-import { NotFoundException } from '@nestjs/common';
 import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
+import {
+  LoanAmmountExceedsYourLimit,
+  LoanAmmountTooLow,
+  LoanTermNotSupported,
+  PersonCreditScoreNotSupported,
+} from '../exceptions/calculate-base-apr.exception';
 
 export default function calculateBaseApr(
   dto: CalculateBaseAprDto,
@@ -10,39 +15,32 @@ export default function calculateBaseApr(
 }
 
 function validateBaseAprCalculation(dto: CalculateBaseAprDto): TimeRange {
-  console.log('Chegou aqui na validação', dto);
+  //talvez colocar mais logs aqui
   const personScoreRange = Table.find((x) => {
     const lowerLimit = x.personCreditScoreLowerLimit ?? Number.MIN_SAFE_INTEGER;
     const upperLimit = x.personCreditScoreUpperLimit ?? Number.MAX_SAFE_INTEGER;
-    console.log('personScore-lower', lowerLimit);
-    console.log('personScore-uper', upperLimit);
-    console.log('dto.personCreditScore', dto.personCreditScore);
     return (
       lowerLimit < dto.personCreditScore && upperLimit > dto.personCreditScore
     );
   });
-  if (personScoreRange == undefined) throw new NotFoundException(''); //acertar erro aqui
 
-  console.log('personScoreRange', personScoreRange);
+  if (personScoreRange == undefined)
+    throw new PersonCreditScoreNotSupported(dto.personCreditScore);
+
   personScoreRange.validateMaximumLoanAmount(dto.loanAmount);
-  console.log('validated');
 
   const timeRange = personScoreRange.timeRanges.find((x) => {
     const lowerLimit = x.loanTermLowerLimitInMonths ?? Number.MIN_SAFE_INTEGER;
     const upperLimit = x.loanTermUpperLimitInMonths ?? Number.MAX_SAFE_INTEGER;
-    console.log('timerange-lower', lowerLimit);
-    console.log('timerange-uper', upperLimit);
-    console.log('dto.loanTermInMonths', dto.loanTermInMonths);
     return (
       lowerLimit < dto.loanTermInMonths && upperLimit > dto.loanTermInMonths
     );
   });
-  console.log('timeRange', timeRange);
 
-  if (timeRange == undefined) throw new NotFoundException(''); //acertar erro aqui
+  if (timeRange == undefined)
+    throw new LoanTermNotSupported(dto.loanTermInMonths);
 
   timeRange.validateMinimumLoanAmount(dto.loanAmount);
-  console.log('validated time', timeRange);
 
   return timeRange;
 }
@@ -52,7 +50,7 @@ class TimeRange {
   loanTermLowerLimitInMonths: number | undefined;
   loanTermUpperLimitInMonths: number | undefined;
   baseValue: number | undefined;
-  private minimumLoanAmount: number;
+  readonly minimumLoanAmount: number;
 
   constructor(
     loanTermLowerLimitInMonths: number | undefined,
@@ -67,7 +65,8 @@ class TimeRange {
   }
 
   validateMinimumLoanAmount(loanAmount: number) {
-    if (loanAmount < this.minimumLoanAmount) throw new NotFoundException(); //Colocar boa mensagem de texto aqui na validação e criar uma excepion especifica
+    if (loanAmount < this.minimumLoanAmount)
+      throw new LoanAmmountTooLow(loanAmount, this.minimumLoanAmount);
   }
 }
 
@@ -75,7 +74,7 @@ class PersonScoreRange {
   personCreditScoreLowerLimit: number | undefined;
   personCreditScoreUpperLimit: number | undefined;
   timeRanges: TimeRange[];
-  private maximumLoanAmount: number;
+  readonly maximumLoanAmount: number;
 
   constructor(
     personCreditScoreLowerLimit: number | undefined,
@@ -90,7 +89,8 @@ class PersonScoreRange {
   }
 
   validateMaximumLoanAmount(loanAmount: number) {
-    if (loanAmount > this.maximumLoanAmount) throw new NotFoundException(); //Colocar boa mensagem de texto aqui na validação e criar uma excepion especifica
+    if (loanAmount > this.maximumLoanAmount)
+      throw new LoanAmmountExceedsYourLimit(loanAmount, this.maximumLoanAmount);
   }
 }
 
