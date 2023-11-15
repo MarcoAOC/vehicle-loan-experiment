@@ -23,4 +23,18 @@ export class CalculateVehicleAprRequest {
   personCreditScore: string;
   vehicleYear: string;
   vehicleMileage: string;
+
+  constructor(
+    loanAmount: string,
+    loanTermInMonths: string,
+    personCreditScore: string,
+    vehicleYear: string,
+    vehicleMileage: string,
+  ) {
+    this.loanAmount = loanAmount;
+    this.loanTermInMonths = loanTermInMonths;
+    this.personCreditScore = personCreditScore;
+    this.vehicleYear = vehicleYear;
+    this.vehicleMileage = vehicleMileage;
+  }
 }

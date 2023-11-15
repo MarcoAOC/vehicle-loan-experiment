@@ -1,7 +1,4 @@
-import {
-  ValueMustBeANumber,
-  ValueMustBeAnInteger,
-} from '../exceptions/numbers.exception';
+import { ValueMustBeFloat, ValueMustBeInteger } from '../exceptions/numbers.exception';
 
 type ValidatorFunction = (value: number, fieldName: string) => void;
 
@@ -11,7 +8,7 @@ export function castToInteger(
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const intValue = parseInt(value, 10);
-  if (isNaN(intValue)) throw new ValueMustBeAnInteger(fieldName, value);
+  if (isNaN(intValue)) throw new ValueMustBeInteger(fieldName, value);
 
   if (validators != undefined)
     validators.forEach((validator) => validator(intValue, fieldName));
@@ -25,7 +22,7 @@ export function castToFloat(
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const floatValue = parseFloat(value);
-  if (isNaN(floatValue)) throw new ValueMustBeANumber(fieldName, value);
+  if (isNaN(floatValue)) throw new ValueMustBeFloat(fieldName, value);
 
   if (validators != undefined)
     validators.forEach((validator) => validator(floatValue, fieldName));

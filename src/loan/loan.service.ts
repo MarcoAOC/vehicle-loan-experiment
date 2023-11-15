@@ -18,7 +18,7 @@ export class LoanService {
       ),
       LoanAssetTypeEnum.VEHICLE,
     );
-    if (baseApr == undefined) return undefined;
+    if (baseApr === undefined) return undefined;
 
     console.log('Calculo base', baseApr);
     const vehicleAdditions = calculateVehicleAprAdditions(dto);

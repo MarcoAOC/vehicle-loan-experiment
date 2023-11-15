@@ -25,9 +25,7 @@ function validateBaseAprCalculation(
   const personScoreRange = loanRules.find((x) => {
     const lowerLimit = x.personCreditScoreLowerLimit ?? Number.MIN_SAFE_INTEGER;
     const upperLimit = x.personCreditScoreUpperLimit ?? Number.MAX_SAFE_INTEGER;
-    return (
-      lowerLimit < dto.personCreditScore && upperLimit > dto.personCreditScore
-    );
+    return lowerLimit < dto.personCreditScore && upperLimit > dto.personCreditScore;
   });
 
   if (personScoreRange == undefined)
@@ -38,13 +36,10 @@ function validateBaseAprCalculation(
   const timeRange = personScoreRange.timeRanges.find((x) => {
     const lowerLimit = x.loanTermLowerLimitInMonths ?? Number.MIN_SAFE_INTEGER;
     const upperLimit = x.loanTermUpperLimitInMonths ?? Number.MAX_SAFE_INTEGER;
-    return (
-      lowerLimit < dto.loanTermInMonths && upperLimit > dto.loanTermInMonths
-    );
+    return lowerLimit < dto.loanTermInMonths && upperLimit > dto.loanTermInMonths;
   });
 
-  if (timeRange == undefined)
-    throw new LoanTermNotSupported(dto.loanTermInMonths);
+  if (timeRange == undefined) throw new LoanTermNotSupported(dto.loanTermInMonths);
 
   timeRange.validateMinimumLoanAmount(dto.loanAmount);
 
