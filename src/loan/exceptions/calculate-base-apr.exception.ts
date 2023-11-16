@@ -1,19 +1,19 @@
 import { valueToCurrency } from 'src/common/converters/numbers.converter';
-import { InternalServerError } from 'src/common/exceptions/internal-server-error.exception';
+import { InternalServerErrorException } from 'src/common/exceptions/internal-server-error.exception';
 
-export class PersonCreditScoreNotSupported extends InternalServerError {
+export class PersonCreditScoreNotSupportedException extends InternalServerErrorException {
   constructor(value: number) {
     super(`We are currently not supporting this person credit score ${value}`);
   }
 }
 
-export class LoanTermNotSupported extends InternalServerError {
+export class LoanTermNotSupportedException extends InternalServerErrorException {
   constructor(value: number) {
     super(`We are currently not supporting this loan term value ${value}`);
   }
 }
 
-export class LoanAmmountExceedsYourLimit extends InternalServerError {
+export class LoanAmmountExceedsYourLimitException extends InternalServerErrorException {
   constructor(value: number, limit: number) {
     super(
       `This loan ammount of ${valueToCurrency(
@@ -23,7 +23,7 @@ export class LoanAmmountExceedsYourLimit extends InternalServerError {
   }
 }
 
-export class LoanAmmountTooLow extends InternalServerError {
+export class LoanAmmountTooLowException extends InternalServerErrorException {
   constructor(value: number, minimumValue: number) {
     super(
       `This loan ammount of ${valueToCurrency(

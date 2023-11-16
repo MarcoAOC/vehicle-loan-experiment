@@ -1,33 +1,33 @@
 import calculateVehicleAprRequestToDto from './calculate-vehicle-apr.converter';
 import { CalculateVehicleAprRequest } from '../dtos/calculate-vehicle-apr.dto';
 import {
-  NegativeValueIsNotAllowed,
-  ValueMustBeFloat,
-  ValueMustBeInteger,
+  NegativeValueIsNotAllowedException,
+  ValueMustBeFloatException,
+  ValueMustBeIntegerException,
 } from 'src/common/exceptions/numbers.exception';
 
 type TestTuple = [
   CalculateVehicleAprRequest,
-  typeof ValueMustBeFloat | typeof ValueMustBeInteger,
+  typeof ValueMustBeFloatException | typeof ValueMustBeIntegerException,
 ];
 
 const numberCases: TestTuple[] = [
-  [new CalculateVehicleAprRequest('asdd', '20', '500', '2010', '1000'), ValueMustBeFloat],
+  [new CalculateVehicleAprRequest('asdd', '20', '500', '2010', '1000'), ValueMustBeFloatException],
   [
     new CalculateVehicleAprRequest('100.01', 'asd', '500', '2010', '1000'),
-    ValueMustBeInteger,
+    ValueMustBeIntegerException,
   ],
   [
     new CalculateVehicleAprRequest('100.01', '20', '', '2010', '1000'),
-    ValueMustBeInteger,
+    ValueMustBeIntegerException,
   ],
   [
     new CalculateVehicleAprRequest('100.01', '20', '500', 'asd', '1000'),
-    ValueMustBeInteger,
+    ValueMustBeIntegerException,
   ],
   [
     new CalculateVehicleAprRequest('100.01', '20', '500', '2010', 'asd'),
-    ValueMustBeInteger,
+    ValueMustBeIntegerException,
   ],
 ];
 const negativeNumberCases = [
@@ -53,7 +53,7 @@ describe('calculate-vehicle-apr-converter', () => {
   describe('every field must be a not negative number', () => {
     test.each(negativeNumberCases)('given %p request, must throw error', (request) => {
       expect(() => calculateVehicleAprRequestToDto(request)).toThrowError(
-        NegativeValueIsNotAllowed,
+        NegativeValueIsNotAllowedException,
       );
     });
   });

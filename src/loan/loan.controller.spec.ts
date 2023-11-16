@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { LoanService } from './loan.service';
 import { LoanController } from './loan.controller';
 import { CalculateVehicleAprRequest } from './dtos/calculate-vehicle-apr.dto';
-import { NegativeValueIsNotAllowed } from 'src/common/exceptions/numbers.exception';
+import { NegativeValueIsNotAllowedException } from 'src/common/exceptions/numbers.exception';
 
 describe('LoanController', () => {
   let loanController: LoanController;
@@ -27,7 +27,7 @@ describe('LoanController', () => {
     })
     it('unhappy path of a calculation request', ()=>{
       const request = new CalculateVehicleAprRequest('-10000', '36', '700', '2014', '50000')
-      expect(()=>loanController.calculateVehicleAPR(request)).toThrowError(NegativeValueIsNotAllowed)
+      expect(()=>loanController.calculateVehicleAPR(request)).toThrowError(NegativeValueIsNotAllowedException)
     })
   })
 

@@ -1,6 +1,6 @@
 import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
 import { PersonScoreRange, TimeRange37UpTo48, TimeRange49UpTo60, TimeRangeUpTo36 } from '../entities/apr.entities';
-import { LoanAmmountExceedsYourLimit, LoanAmmountTooLow, LoanTermNotSupported, PersonCreditScoreNotSupported } from '../exceptions/calculate-base-apr.exception';
+import { LoanAmmountExceedsYourLimitException, LoanAmmountTooLowException, LoanTermNotSupportedException, PersonCreditScoreNotSupportedException } from '../exceptions/calculate-base-apr.exception';
 import {validateBaseAprCalculation} from './base-apr-calculator';
 
 const baseLoanRules =  [
@@ -37,14 +37,14 @@ const happyPathScenarios: HappyPathTuple[] = [
 
 ];
 
-type UnhappyPathTuple = [CalculateBaseAprDto, typeof LoanAmmountExceedsYourLimit | typeof LoanAmmountTooLow]
+type UnhappyPathTuple = [CalculateBaseAprDto, typeof LoanAmmountExceedsYourLimitException | typeof LoanAmmountTooLowException]
 const unhappyPathScenarios: UnhappyPathTuple[] = [
-  [new CalculateBaseAprDto(4000, 36, 800), LoanAmmountTooLow],
-  [new CalculateBaseAprDto(1000, 40, 600), LoanAmmountTooLow],
-  [new CalculateBaseAprDto(7000, 52, 601), LoanAmmountTooLow],
-  [new CalculateBaseAprDto(120000, 36, 800), LoanAmmountExceedsYourLimit],
-  [new CalculateBaseAprDto(90000, 48, 650), LoanAmmountExceedsYourLimit],
-  [new CalculateBaseAprDto(60000, 36, 430), LoanAmmountExceedsYourLimit],
+  [new CalculateBaseAprDto(4000, 36, 800), LoanAmmountTooLowException],
+  [new CalculateBaseAprDto(1000, 40, 600), LoanAmmountTooLowException],
+  [new CalculateBaseAprDto(7000, 52, 601), LoanAmmountTooLowException],
+  [new CalculateBaseAprDto(120000, 36, 800), LoanAmmountExceedsYourLimitException],
+  [new CalculateBaseAprDto(90000, 48, 650), LoanAmmountExceedsYourLimitException],
+  [new CalculateBaseAprDto(60000, 36, 430), LoanAmmountExceedsYourLimitException],
 ];
 
 describe('base-apr-calculator', () => {
@@ -66,11 +66,11 @@ describe('base-apr-calculator', () => {
     ];
     it('Credit score with a value missed in rules', ()=>{
       const dto = new CalculateBaseAprDto(15000, 36, 800)
-      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(PersonCreditScoreNotSupported);
+      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(PersonCreditScoreNotSupportedException);
     })
     it('Loan termin with a value missed in rules', ()=>{
       const dto = new CalculateBaseAprDto(4000, 40, 400)
-      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(LoanTermNotSupported);
+      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(LoanTermNotSupportedException);
     })
   });
 });

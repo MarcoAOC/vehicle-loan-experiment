@@ -3,10 +3,10 @@ import {
   CalculateVehicleAprDto,
   CalculateVehicleAprRequest,
 } from '../dtos/calculate-vehicle-apr.dto';
-import { NegativeValueIsNotAllowed } from 'src/common/exceptions/numbers.exception';
+import { NegativeValueIsNotAllowedException } from 'src/common/exceptions/numbers.exception';
 
 function validateNegativeValue(value: number, fieldName: string) {
-  if (value < 0) throw new NegativeValueIsNotAllowed(fieldName, value);
+  if (value < 0) throw new NegativeValueIsNotAllowedException(fieldName, value);
 }
 export default function calculateVehicleAprRequestToDto(
   request: CalculateVehicleAprRequest,

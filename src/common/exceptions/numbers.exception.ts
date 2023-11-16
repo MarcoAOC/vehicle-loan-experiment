@@ -1,18 +1,18 @@
 import { InvalidParametersException } from 'src/common/exceptions/invalid-parameters.exception';
 
-export class NegativeValueIsNotAllowed extends InvalidParametersException {
+export class NegativeValueIsNotAllowedException extends InvalidParametersException {
   constructor(fieldName: string, value: number) {
     super(`Negative value is not allowed to ${fieldName}. ${value} was received`);
   }
 }
 
-export class ValueMustBeFloat extends InvalidParametersException {
+export class ValueMustBeFloatException extends InvalidParametersException {
   constructor(fieldName: string, value: string) {
     super(`${fieldName} value must be float. ${value} was received`);
   }
 }
 
-export class ValueMustBeInteger extends InvalidParametersException {
+export class ValueMustBeIntegerException extends InvalidParametersException {
   constructor(fieldName: string, value: string) {
     super(`${fieldName} value must be integer. ${value} was received`);
   }

@@ -1,6 +1,6 @@
 import {
-  LoanAmmountExceedsYourLimit,
-  LoanAmmountTooLow,
+  LoanAmmountExceedsYourLimitException,
+  LoanAmmountTooLowException,
 } from '../exceptions/calculate-base-apr.exception';
 
 export class TimeRange {
@@ -23,7 +23,7 @@ export class TimeRange {
 
   validateMinimumLoanAmount(loanAmount: number) {
     if (loanAmount < this.minimumLoanAmount)
-      throw new LoanAmmountTooLow(loanAmount, this.minimumLoanAmount);
+      throw new LoanAmmountTooLowException(loanAmount, this.minimumLoanAmount);
   }
 }
 
@@ -47,7 +47,7 @@ export class PersonScoreRange {
 
   validateMaximumLoanAmount(loanAmount: number) {
     if (loanAmount > this.maximumLoanAmount)
-      throw new LoanAmmountExceedsYourLimit(loanAmount, this.maximumLoanAmount);
+      throw new LoanAmmountExceedsYourLimitException(loanAmount, this.maximumLoanAmount);
   }
 }
 

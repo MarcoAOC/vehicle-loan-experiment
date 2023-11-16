@@ -2,8 +2,8 @@ import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
 import { PersonScoreRange, TimeRange, TimeRange37UpTo48, TimeRange49UpTo60, TimeRangeUpTo36 } from '../entities/apr.entities';
 import { LoanAssetTypeEnum } from '../enum/loan.enum';
 import {
-  LoanTermNotSupported,
-  PersonCreditScoreNotSupported,
+  LoanTermNotSupportedException,
+  PersonCreditScoreNotSupportedException,
 } from '../exceptions/calculate-base-apr.exception';
 
 export default function calculateBaseApr(
@@ -27,7 +27,7 @@ export function validateBaseAprCalculation(
   });
 
   if (personScoreRange == undefined)
-    throw new PersonCreditScoreNotSupported(dto.personCreditScore);
+    throw new PersonCreditScoreNotSupportedException(dto.personCreditScore);
 
   personScoreRange.validateMaximumLoanAmount(dto.loanAmount);
 
@@ -37,7 +37,7 @@ export function validateBaseAprCalculation(
     return lowerLimit <= dto.loanTermInMonths && upperLimit >= dto.loanTermInMonths;
   });
 
-  if (timeRange == undefined) throw new LoanTermNotSupported(dto.loanTermInMonths);
+  if (timeRange == undefined) throw new LoanTermNotSupportedException(dto.loanTermInMonths);
 
   timeRange.validateMinimumLoanAmount(dto.loanAmount);
 
