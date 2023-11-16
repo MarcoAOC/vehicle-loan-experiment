@@ -4,7 +4,7 @@ type ValidatorFunction = (value: number, fieldName: string) => void;
 
 export function castToInteger(
   value: string,
-  fieldName: string,
+  fieldName: string = "",
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const intValue = parseInt(value, 10);
@@ -18,7 +18,7 @@ export function castToInteger(
 
 export function castToFloat(
   value: string,
-  fieldName: string,
+  fieldName: string = "",
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const floatValue = parseFloat(value);
@@ -30,7 +30,7 @@ export function castToFloat(
   return floatValue;
 }
 
-export function valueToCurrency(value: number): string {
+export function valueToUsdCurrency(value: number): string {
   return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',

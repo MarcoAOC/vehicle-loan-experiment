@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoanService } from './loan.service';
+import { LoanServiceImpl } from './loan.service';
 import { LoanController } from './loan.controller';
 import { CalculateVehicleAprRequest } from './dtos/calculate-vehicle-apr.dto';
 import { NegativeValueIsNotAllowedException } from 'src/common/exceptions/numbers.exception';
+import { ILoanService } from './interfaces/loan.service.interface';
 
 describe('LoanController', () => {
   let loanController: LoanController;
@@ -10,7 +11,7 @@ describe('LoanController', () => {
   beforeAll(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [LoanController],
-      providers: [LoanService],
+      providers: [{provide: ILoanService, useClass: LoanServiceImpl}],
     }).compile();
 
     loanController = app.get<LoanController>(LoanController);

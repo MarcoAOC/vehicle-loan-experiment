@@ -1,19 +1,20 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CalculateVehicleAprDto } from './dtos/calculate-vehicle-apr.dto';
 import { calculateVehicleAprAdditions } from './domain-rules/calculate-vehicle-apr-additions';
-import { LoanService } from './loan.service';
+import { LoanServiceImpl } from './loan.service';
+import { ILoanService } from './interfaces/loan.service.interface';
 
 jest.mock('./domain-rules/calculate-vehicle-apr-additions');
 
 describe('LoanService', () => {
-  let loanService: LoanService;
+  let loanService: ILoanService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [LoanService],
+      providers: [{provide: ILoanService, useClass: LoanServiceImpl}],
     }).compile();
 
-    loanService = module.get<LoanService>(LoanService);
+    loanService = module.get<ILoanService>(ILoanService);
   });
 
   describe('calculateVehicleApr', () => {

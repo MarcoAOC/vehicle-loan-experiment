@@ -3,16 +3,17 @@ import {
   LoanAmmountTooLowException,
 } from '../exceptions/calculate-base-apr.exception';
 
+type MaybeNumber = number | undefined;
 export class TimeRange {
-  loanTermLowerLimitInMonths: number | undefined;
-  loanTermUpperLimitInMonths: number | undefined;
-  baseValue: number | undefined;
+  loanTermLowerLimitInMonths: MaybeNumber;
+  loanTermUpperLimitInMonths: MaybeNumber;
+  baseValue: MaybeNumber;
   readonly minimumLoanAmount: number;
 
   constructor(
-    loanTermLowerLimitInMonths: number | undefined,
-    loanTermUpperLimitInMonths: number | undefined,
-    baseValue: number | undefined,
+    loanTermLowerLimitInMonths: MaybeNumber,
+    loanTermUpperLimitInMonths: MaybeNumber,
+    baseValue: MaybeNumber,
     minimumLoanAmount: number,
   ) {
     this.loanTermUpperLimitInMonths = loanTermUpperLimitInMonths;
@@ -28,14 +29,14 @@ export class TimeRange {
 }
 
 export class PersonScoreRange {
-  personCreditScoreLowerLimit: number | undefined;
-  personCreditScoreUpperLimit: number | undefined;
+  personCreditScoreLowerLimit: MaybeNumber;
+  personCreditScoreUpperLimit: MaybeNumber;
   timeRanges: TimeRange[];
   readonly maximumLoanAmount: number;
 
   constructor(
-    personCreditScoreLowerLimit: number | undefined,
-    personCreditScoreUpperLimit: number | undefined,
+    personCreditScoreLowerLimit: MaybeNumber,
+    personCreditScoreUpperLimit: MaybeNumber,
     maximumLoanAmount: number,
     timeRanges: TimeRange[],
   ) {
@@ -54,4 +55,4 @@ export class PersonScoreRange {
 
 export const TimeRangeUpTo36 = (baseValue: number) => new TimeRange(undefined, 36, baseValue, 5000)
 export const TimeRange37UpTo48 = (baseValue: number) => new TimeRange(37, 48, baseValue, 10000)
-export const TimeRange49UpTo60 = (baseValue: number | undefined) => new TimeRange(49, 60, baseValue, 15000)
+export const TimeRange49UpTo60 = (baseValue: MaybeNumber) => new TimeRange(49, 60, baseValue, 15000)

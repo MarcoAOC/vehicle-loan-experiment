@@ -6,6 +6,8 @@ import {
   PersonCreditScoreNotSupportedException,
 } from '../exceptions/calculate-base-apr.exception';
 
+type LoanRules = PersonScoreRange[];
+
 export default function calculateBaseApr(
   dto: CalculateBaseAprDto,
   loanAssetType: LoanAssetTypeEnum,
@@ -44,10 +46,7 @@ export function validateBaseAprCalculation(
   return timeRange;
 }
 
-type LoanRules = PersonScoreRange[];
-
 function maybeAfactory(loanAssetType: LoanAssetTypeEnum): LoanRules {
-  //criar uma factory aqui ?
   switch (loanAssetType) {
     case LoanAssetTypeEnum.VEHICLE:
       return getBaseLoanRules();

@@ -1,4 +1,4 @@
-import { valueToCurrency } from 'src/common/converters/numbers.converter';
+import { valueToUsdCurrency } from 'src/common/converters/numbers.converter';
 import { InternalServerErrorException } from 'src/common/exceptions/internal-server-error.exception';
 
 export class PersonCreditScoreNotSupportedException extends InternalServerErrorException {
@@ -16,9 +16,9 @@ export class LoanTermNotSupportedException extends InternalServerErrorException 
 export class LoanAmmountExceedsYourLimitException extends InternalServerErrorException {
   constructor(value: number, limit: number) {
     super(
-      `This loan ammount of ${valueToCurrency(
+      `This loan ammount of ${valueToUsdCurrency(
         value,
-      )} exceeds your limit of ${valueToCurrency(limit)}`,
+      )} exceeds your limit of ${valueToUsdCurrency(limit)}`,
     );
   }
 }
@@ -26,9 +26,9 @@ export class LoanAmmountExceedsYourLimitException extends InternalServerErrorExc
 export class LoanAmmountTooLowException extends InternalServerErrorException {
   constructor(value: number, minimumValue: number) {
     super(
-      `This loan ammount of ${valueToCurrency(
+      `This loan ammount of ${valueToUsdCurrency(
         value,
-      )} is too low, choose at least $ ${valueToCurrency(minimumValue)}`,
+      )} is too low, choose at least $ ${valueToUsdCurrency(minimumValue)}`,
     );
   }
 }
