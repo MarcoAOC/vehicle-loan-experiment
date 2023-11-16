@@ -18,7 +18,7 @@ const numberCases: TestTuple[] = [
     ValueMustBeInteger,
   ],
   [
-    new CalculateVehicleAprRequest('100.01', '20', 'asd', '2010', '1000'),
+    new CalculateVehicleAprRequest('100.01', '20', '', '2010', '1000'),
     ValueMustBeInteger,
   ],
   [
@@ -42,9 +42,9 @@ describe('calculate-vehicle-apr-converter', () => {
   describe('every field must be a string number', () => {
     test.each<TestTuple>(numberCases)(
       'given %p request, must throw error %p',
-      (firstArg, expectedResult) => {
-        expect(() => calculateVehicleAprRequestToDto(firstArg)).toThrowError(
-          expectedResult,
+      (request, expectedError) => {
+        expect(() => calculateVehicleAprRequestToDto(request)).toThrowError(
+          expectedError,
         );
       },
     );
