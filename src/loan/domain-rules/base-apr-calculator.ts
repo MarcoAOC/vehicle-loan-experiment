@@ -1,5 +1,6 @@
+import getBaseLoanRules from '../data/base-loan-rules';
 import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
-import { PersonScoreRange, TimeRange, TimeRange37UpTo48, TimeRange49UpTo60, TimeRangeUpTo36 } from '../entities/apr.entities';
+import { PersonScoreRange, TimeRange } from '../entities/apr.entities';
 import { LoanAssetTypeEnum } from '../enum/loan.enum';
 import {
   LoanTermNotSupportedException,
@@ -12,7 +13,7 @@ export default function calculateBaseApr(
   dto: CalculateBaseAprDto,
   loanAssetType: LoanAssetTypeEnum,
 ): number | undefined {
-  const loanRules = maybeAfactory(loanAssetType);
+  const loanRules = getBaseLoanRulesBaseOnAssetType(loanAssetType);
   const timeRange = validateBaseAprCalculation(loanRules, dto);
 
   return timeRange.baseValue;
@@ -46,31 +47,11 @@ export function validateBaseAprCalculation(
   return timeRange;
 }
 
-function maybeAfactory(loanAssetType: LoanAssetTypeEnum): LoanRules {
+function getBaseLoanRulesBaseOnAssetType(loanAssetType: LoanAssetTypeEnum): LoanRules {
   switch (loanAssetType) {
     case LoanAssetTypeEnum.VEHICLE:
       return getBaseLoanRules();
     default:
       return getBaseLoanRules();
   }
-}
-
-function getBaseLoanRules() {
-  return [
-    new PersonScoreRange(undefined, 600, 50000, [
-      TimeRangeUpTo36(12.75),
-      TimeRange37UpTo48(13.25),
-      TimeRange49UpTo60(undefined),
-    ]),
-    new PersonScoreRange(599, 700, 75000, [
-      TimeRangeUpTo36(5.75),
-      TimeRange37UpTo48(6.0),
-      TimeRange49UpTo60(6.65),
-    ]),
-    new PersonScoreRange(699, undefined, 100000, [
-      TimeRangeUpTo36(4.75),
-      TimeRange37UpTo48(5.0),
-      TimeRange49UpTo60(5.5),
-    ]),
-  ];
 }
