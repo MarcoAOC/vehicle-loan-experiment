@@ -1,11 +1,11 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { LoanService } from './loan.service';
+import { Controller, Get, Inject, Query } from '@nestjs/common';
 import { CalculateVehicleAprRequest } from './dtos/calculate-vehicle-apr.dto';
 import calculateVehicleAprRequestToDto from './converters/calculate-vehicle-apr.converter';
+import { ILoanService } from './interfaces/loan.service.interface';
 
 @Controller('loan')
 export class LoanController {
-  constructor(private readonly loanService: LoanService) {}
+  constructor(@Inject(ILoanService) private readonly loanService: ILoanService) {}
 
   @Get('vehicle-apr')
   calculateVehicleAPR(@Query() request: CalculateVehicleAprRequest): string {
