@@ -1,6 +1,6 @@
 import { CalculateBaseAprDto } from '../dtos/calculate-base-apr.dto';
 import { PersonScoreRange, TimeRange37UpTo48, TimeRange49UpTo60, TimeRangeUpTo36 } from '../entities/apr.entities';
-import { LoanAmmountExceedsYourLimit, LoanAmmountTooLow } from '../exceptions/calculate-base-apr.exception';
+import { LoanAmmountExceedsYourLimit, LoanAmmountTooLow, LoanTermNotSupported, PersonCreditScoreNotSupported } from '../exceptions/calculate-base-apr.exception';
 import {validateBaseAprCalculation} from './base-apr-calculator';
 
 const baseLoanRules =  [
@@ -54,7 +54,23 @@ describe('base-apr-calculator', () => {
     });
 
     test.each(unhappyPathScenarios)('given %p request, must throw exception %p', (baseDto, expectedException) => {
-      expect(()=>validateBaseAprCalculation(baseLoanRules, baseDto)).toThrowError(expectedException);
+      expect(() => validateBaseAprCalculation(baseLoanRules, baseDto)).toThrowError(expectedException);
     });
+  });
+
+  describe('loan rule table with errors should throw exception', () => {
+    const brokeRuleTable =  [
+      new PersonScoreRange(undefined, 600, 50000, [
+        TimeRangeUpTo36(12.75),
+      ]),
+    ];
+    it('Credit score with a value missed in rules', ()=>{
+      const dto = new CalculateBaseAprDto(15000, 36, 800)
+      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(PersonCreditScoreNotSupported);
+    })
+    it('Loan termin with a value missed in rules', ()=>{
+      const dto = new CalculateBaseAprDto(4000, 40, 400)
+      expect(() => validateBaseAprCalculation(brokeRuleTable, dto)).toThrowError(LoanTermNotSupported);
+    })
   });
 });

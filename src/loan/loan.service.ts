@@ -9,7 +9,6 @@ import { LoanAssetTypeEnum } from './enum/loan.enum';
 export class LoanService {
   //Criar Interface para o serviço
   calculateVehicleApr(dto: CalculateVehicleAprDto): number | undefined {
-    console.log('Chegou aqui no serviço', dto);
     const baseApr = this.calculateBaseApr(
       new CalculateBaseAprDto(
         dto.loanAmount,
@@ -20,14 +19,12 @@ export class LoanService {
     );
     if (baseApr === undefined) return undefined;
 
-    console.log('Calculo base', baseApr);
     const vehicleAdditions = calculateVehicleAprAdditions(dto);
-    console.log('Adição baseado no asset', vehicleAdditions);
 
     return baseApr + vehicleAdditions;
   }
 
-  private calculateBaseApr(
+  calculateBaseApr(
     dto: CalculateBaseAprDto,
     loanAssetType: LoanAssetTypeEnum,
   ): number | undefined {
