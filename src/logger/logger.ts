@@ -1,19 +1,18 @@
 import { ConsoleLogger } from '@nestjs/common';
 
 export class CustomLogger extends ConsoleLogger {
-
-  error(message: any, stack?: string, context?: string) {
-    super.error(message, stack, context);
+  error(message: string) {
+    super.error(message);
   }
-  log(message: any, stack?: string, context?: string) {
-    super.log(message, stack, context);
-  }
-
-  debug(message: any, stack?: string, context?: string) {
-    super.debug(message, stack, context);
+  log(message: string) {
+    super.log(message);
   }
 
-  warn(message: any, stack?: string, context?: string) {
-    super.warn(message, stack, context);
+  debug(message: string) {
+    super.debug(message);
+  }
+
+  warn(message: string) {
+    super.warn(message);
   }
 }
