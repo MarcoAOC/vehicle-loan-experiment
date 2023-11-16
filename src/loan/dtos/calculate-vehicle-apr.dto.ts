@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { CalculateBaseAprDto } from './calculate-base-apr.dto';
 
 export class CalculateVehicleAprDto extends CalculateBaseAprDto {
@@ -18,10 +19,34 @@ export class CalculateVehicleAprDto extends CalculateBaseAprDto {
 }
 
 export class CalculateVehicleAprRequest {
+  @ApiProperty({
+    example: '10000',
+    description: 'The loan amount that person wants, must be a number > 0',
+  })
   loanAmount: string;
+
+  @ApiProperty({
+    example: '36',
+    description: 'The loan term in months, must be a number > 0'
+  })
   loanTermInMonths: string;
+
+  @ApiProperty({
+    example: '700',
+    description: 'Credit score for the person, must be a number > 0'
+  })
   personCreditScore: string;
+
+  @ApiProperty({
+    example: '2014',
+    description: 'The vehicle year, must be a number > 0'
+  })
   vehicleYear: string;
+
+  @ApiProperty({
+    example: '50000',
+    description: 'The vehicle mileage, must be a number > 0'
+  })
   vehicleMileage: string;
 
   constructor(
