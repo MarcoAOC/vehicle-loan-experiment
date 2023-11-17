@@ -6,6 +6,6 @@ import { LoanServiceImpl } from './loan.service';
 @Module({
   imports: [],
   controllers: [LoanController],
-  providers: [{provide: ILoanService, useClass: LoanServiceImpl}],
+  providers: [{ provide: ILoanService, useClass: LoanServiceImpl }],
 })
 export class LoanModule {}

@@ -12,7 +12,10 @@ type TestTuple = [
 ];
 
 const numberCases: TestTuple[] = [
-  [new CalculateVehicleAprRequest('asdd', '20', '500', '2010', '1000'), ValueMustBeFloatException],
+  [
+    new CalculateVehicleAprRequest('asdd', '20', '500', '2010', '1000'),
+    ValueMustBeFloatException,
+  ],
   [
     new CalculateVehicleAprRequest('100.01', 'asd', '500', '2010', '1000'),
     ValueMustBeIntegerException,

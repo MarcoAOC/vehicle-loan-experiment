@@ -9,7 +9,6 @@ describe('LoggingInterceptor', () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [],
       providers: [LoggingInterceptor],
-
     }).compile();
     loggingInterceptor = module.get<LoggingInterceptor>(LoggingInterceptor);
   });
@@ -23,13 +22,12 @@ describe('LoggingInterceptor', () => {
           method: 'GET',
           url: '/test',
         })),
-      }))
+      })),
     } as unknown as ExecutionContext;
 
     const mockCallHandler = {
       handle: jest.fn(),
     } as CallHandler;
-
 
     loggingInterceptor.intercept(mockExecutionContext, mockCallHandler);
 

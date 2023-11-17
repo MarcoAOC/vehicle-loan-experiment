@@ -40,7 +40,8 @@ export function validateBaseAprCalculation(
     return lowerLimit <= dto.loanTermInMonths && upperLimit >= dto.loanTermInMonths;
   });
 
-  if (timeRange == undefined) throw new LoanTermNotSupportedException(dto.loanTermInMonths);
+  if (timeRange == undefined)
+    throw new LoanTermNotSupportedException(dto.loanTermInMonths);
 
   timeRange.validateMinimumLoanAmount(dto.loanAmount);
 

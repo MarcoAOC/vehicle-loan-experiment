@@ -27,25 +27,25 @@ export class CalculateVehicleAprRequest {
 
   @ApiProperty({
     example: '36',
-    description: 'The loan term in months, must be a number > 0'
+    description: 'The loan term in months, must be a number > 0',
   })
   loanTermInMonths: string;
 
   @ApiProperty({
     example: '700',
-    description: 'Credit score for the person, must be a number > 0'
+    description: 'Credit score for the person, must be a number > 0',
   })
   personCreditScore: string;
 
   @ApiProperty({
     example: '2014',
-    description: 'The vehicle year, must be a number > 0'
+    description: 'The vehicle year, must be a number > 0',
   })
   vehicleYear: string;
 
   @ApiProperty({
     example: '50000',
-    description: 'The vehicle mileage, must be a number > 0'
+    description: 'The vehicle mileage, must be a number > 0',
   })
   vehicleMileage: string;
 

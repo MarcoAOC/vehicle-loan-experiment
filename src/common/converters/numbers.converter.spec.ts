@@ -1,5 +1,8 @@
-import { ValueMustBeIntegerException, ValueMustBeFloatException } from "../exceptions/numbers.exception";
-import { castToFloat, castToInteger, valueToUsdCurrency } from "./numbers.converter";
+import {
+  ValueMustBeIntegerException,
+  ValueMustBeFloatException,
+} from '../exceptions/numbers.exception';
+import { castToFloat, castToInteger, valueToUsdCurrency } from './numbers.converter';
 
 describe('castToInteger', () => {
   it('should cast string to integer', () => {
@@ -10,7 +13,6 @@ describe('castToInteger', () => {
   it('should throw ValueMustBeIntegerException for non-integer string', () => {
     expect(() => castToInteger('abc')).toThrow(ValueMustBeIntegerException);
   });
-
 });
 
 describe('castToFloat', () => {
@@ -22,7 +24,6 @@ describe('castToFloat', () => {
   it('should throw ValueMustBeFloatException for non-float string', () => {
     expect(() => castToFloat('abc')).toThrow(ValueMustBeFloatException);
   });
-
 });
 
 describe('valueToUsdCurrency', () => {

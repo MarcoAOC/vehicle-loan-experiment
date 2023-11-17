@@ -1,10 +1,13 @@
-import { ValueMustBeFloatException, ValueMustBeIntegerException } from '../exceptions/numbers.exception';
+import {
+  ValueMustBeFloatException,
+  ValueMustBeIntegerException,
+} from '../exceptions/numbers.exception';
 
 type ValidatorFunction = (value: number, fieldName: string) => void;
 
 export function castToInteger(
   value: string,
-  fieldName: string = "",
+  fieldName: string = '',
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const intValue = parseInt(value, 10);
@@ -18,7 +21,7 @@ export function castToInteger(
 
 export function castToFloat(
   value: string,
-  fieldName: string = "",
+  fieldName: string = '',
   validators: ValidatorFunction[] | undefined = undefined,
 ): number {
   const floatValue = parseFloat(value);

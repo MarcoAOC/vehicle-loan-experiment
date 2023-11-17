@@ -11,7 +11,7 @@ describe('LoanService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [{provide: ILoanService, useClass: LoanServiceImpl}],
+      providers: [{ provide: ILoanService, useClass: LoanServiceImpl }],
     }).compile();
 
     loanService = module.get<ILoanService>(ILoanService);
