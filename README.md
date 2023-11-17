@@ -4,7 +4,7 @@
 
 ### Proposed Solution
 
-Due to the nature of rules and restrictions for the calculation, I had a understanding that 'personCreditScore,' 'loanAmount,' and 'loanTerm' are the only values that is needed for determining the baseRate. The vehicle details, referred to as assets in the code, are used just in the final addition.
+Due to the nature of rules and restrictions for the calculation, I had a understanding that 'personCreditScore,' 'loanAmount,' and 'loanTerm' are the only values that is needed for determining the baseRate. After that base calculation, the vehicle details, referred to as assets in the code, are used to make an final increment at the value.
 
 I developed a solution that involves incorporating a "BaseAPR" and an "AssetAddition" to streamline the calculation process in a way that enable easy adjustments of new asset types in the future.
 
