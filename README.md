@@ -2,11 +2,11 @@
 
 ---
 ### Overview
-This API is designed to calculate the Annual Percentage Rate (APR) for vehicle loans based on specified parameters. The calculation involves factors such as personCreditScore, loanAmount, loanTerm, and additional details about the vehicle (referred to as assets).
+This API is designed to calculate the Annual Percentage Rate (APR) for vehicle loans based on specified parameters. The calculation involves factors such as `personCreditScore`, `loanAmount`, `loanTerm`, and additional details about the vehicle (referred to as assets).
 
 ### Proposed Solution
 
-To facilitate the APR calculation process, the solution introduces two key components: BaseAPR and AssetAddition. The BaseAPR is determined by the core parameters (personCreditScore, loanAmount, loanTerm), and the AssetAddition allows for seamless integration of new asset types in the future.
+To facilitate the APR calculation process, the solution introduces two key components: `BaseAPR` and `AssetAddition`. The `BaseAPR` is determined by the core parameters (`personCreditScore`, `loanAmount`, `loanTerm`), and the `AssetAddition` allows for seamless integration of new asset types in the future.
 
 ### How to run
 
@@ -26,7 +26,7 @@ yarn
 yarn start
 ```
 
-In both cases the API will be served at localhost:3000
+In both cases the API will be served at `localhost:3000`
 
 ### API Documentation
 Once the project is running, you can access the API documentation at: `localhost:3000/docs`.
