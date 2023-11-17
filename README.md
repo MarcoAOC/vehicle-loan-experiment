@@ -40,7 +40,7 @@ GET localhost:3000/loan/vehicle-apr
 
 Make sure to provide the necessary parameters as specified in the documentation.
 
-The provided example for this coding exercise can be effortlessly executed within the documentation.
+The provided example for this coding exercise can be executed within the documentation.
 
 #### Health Check Endpoint
 Additionally, there is a health check endpoint:
