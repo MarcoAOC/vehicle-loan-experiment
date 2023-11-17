@@ -31,7 +31,6 @@ describe('LoggingInterceptor', () => {
 
     loggingInterceptor.intercept(mockExecutionContext, mockCallHandler);
 
-    // Verify that the log method on CustomLogger is called with the expected message
     expect(loggerSpy).toHaveBeenCalledWith('GET - /test');
   });
 });
